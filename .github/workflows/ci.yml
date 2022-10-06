@@ -27,3 +27,6 @@ jobs:
     - name: yarn build
       run: |
         yarn run build --if-present
+    - name: publish package
+      run: |
+        npm publish
