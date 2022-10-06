@@ -1,14 +1,29 @@
 name: CI
-on: [push]
+on: 
+  push:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one line script
-      run: echo Hello, World!
-    - name: Run a mutli line script
+    - name: Use Node.js ${{ matric.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: yarn install
       run: |
-        echo Add other actions to build
-        echo test, and deploy your project
+        yarn install
+    - name: yarn test
+      run: |
+        yarn test
+    - name: yarn build
+      run: |
+        yarn run build --if-present
