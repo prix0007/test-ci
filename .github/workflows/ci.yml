@@ -21,20 +21,24 @@ jobs:
       - name: yarn install
         run: |
           yarn install
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
       - name: yarn test
         run: |
           yarn test
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
       - name: yarn build
         run: |
           yarn run build --if-present
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm publish
         env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
-      - name: publish package
-        run: |
-          npm publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_API_KEY}}
