@@ -21,6 +21,8 @@ jobs:
       - name: yarn install
         run: |
           yarn install
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
       - name: yarn test
         run: |
           yarn test
@@ -30,5 +32,3 @@ jobs:
       - name: publish package
         run: |
           npm publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
