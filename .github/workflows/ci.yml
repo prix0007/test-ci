@@ -1,5 +1,5 @@
 name: CI
-on: 
+on:
   push:
     branches:
       - master
@@ -13,22 +13,22 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: yarn install
-      run: |
-        yarn install
-    - name: yarn test
-      run: |
-        yarn test
-    - name: yarn build
-      run: |
-        yarn run build --if-present
-    - name: publish package
-      run: |
-        npm publish
-    - env: |
-      NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn install
+        run: |
+          yarn install
+      - name: yarn test
+        run: |
+          yarn test
+      - name: yarn build
+        run: |
+          yarn run build --if-present
+      - name: publish package
+        run: |
+          npm publish
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_API_KEY }}
